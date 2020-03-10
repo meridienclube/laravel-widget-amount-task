@@ -21,7 +21,8 @@
   },
   "autoload": {
     "psr-4": {
-      "ConfrariaWeb\\WidgetAmountTask\\": "src"
+      "ConfrariaWeb\\WidgetAmountTask\\": "src",
+      "ConfrariaWeb\\WidgetAmountTask\\Databases\\Seeds\\": "src/Databases/Seeds"
     }
   },
   "extra": {

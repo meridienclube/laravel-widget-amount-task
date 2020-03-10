@@ -14,7 +14,7 @@ class WidgetAmountTaskServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind('WidgetAmountTaskServiceService', function () {
+        $this->app->bind('WidgetAmountTaskService', function () {
             return new WidgetAmountTaskService();
         });
     }

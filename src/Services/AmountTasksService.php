@@ -1,33 +1,40 @@
 <?PHP
-
 namespace ConfrariaWeb\WidgetAmountTask\Services;
 
-class WidgetAmountTaskService
+use ConfrariaWeb\Widget\Contracts\WidgetServiceContract;
+
+class WidgetAmountTaskService implements WidgetServiceContract
 {
 
-    protected $widget;
-    protected $users;
-
-    public function __construct($widget)
+    public function __construct()
     {
-        $this->widget = $widget['widget'];
-        $this->pivot = $this->widget->pivot;
-        $this->users = option($this->widget->pivot, 'users', []);
+        //
+    }
 
+    public function set($data)
+    {
+        $this->widget = $data;
+        $this->pivot = $this->widget->pivot;
+        $this->responsibles = option($this->widget->pivot, 'responsibles', [])->pluck('id');
+        $this->statuses = option($this->widget->pivot, 'statuses', [])->pluck('id');
+        $this->task_types = option($this->widget->pivot, 'task_types', [])->pluck('id');
     }
 
     public function get()
     {
-        return [
-            'users' => $this->users(),
-            'pivot' => $this->pivot
-        ];
+        //
     }
 
     public function users()
     {
         foreach ($this->users as $user) {
-            $user->tasks = resolve('TaskService')->where(['statuses' => option($this->pivot, 'statuses', []), 'types' => option($this->pivot, 'task_types', []), 'destinateds' => [$user->id]])->get();
+            $user->tasks = resolve('TaskService')
+                ->where([
+                    'statuses' => $this->statuses,
+                    'types' => $this->task_types,
+                    'destinateds' => $this->responsibles
+                ])
+                ->get();
         }
         return $this->users;
     }
