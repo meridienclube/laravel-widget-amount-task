@@ -15,28 +15,32 @@ class WidgetAmountTaskService implements WidgetServiceContract
     {
         $this->widget = $data;
         $this->pivot = $this->widget->pivot;
-        $this->responsibles = option($this->widget->pivot, 'responsibles', [])->pluck('id');
-        $this->statuses = option($this->widget->pivot, 'statuses', [])->pluck('id');
-        $this->task_types = option($this->widget->pivot, 'task_types', [])->pluck('id');
+        $this->responsibles = option($this->widget->pivot, 'responsibles', []);
+        $this->statuses = option($this->widget->pivot, 'statuses', []);
+        $this->task_types = option($this->widget->pivot, 'task_types', []);
     }
 
     public function get()
     {
-        //
+        $data['users'] = $this->responsibles;
+        $data['statuses'] = $this->statuses;
+        $data['task_types'] = $this->task_types;
+        $data['mount'] = $this->mount();
+        return $data;
     }
 
-    public function users()
+    public function mount()
     {
-        foreach ($this->users as $user) {
-            $user->tasks = resolve('TaskService')
-                ->where([
-                    'statuses' => $this->statuses,
-                    'types' => $this->task_types,
-                    'destinateds' => $this->responsibles
-                ])
-                ->get();
+        $data = [];
+        foreach ($this->responsibles as $k => $user) {
+            $data[$k]['name'] = $user->name;
+            $data[$k]['tasks'] = $user->tasks()
+                ->whereIn('status_id', $this->statuses->pluck('id'))
+                ->whereIn('type_id', $this->task_types->pluck('id'))
+                ->count();
+
         }
-        return $this->users;
+        return $data;
     }
 
 }
