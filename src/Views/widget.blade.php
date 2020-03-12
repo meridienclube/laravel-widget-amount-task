@@ -6,9 +6,9 @@
             <small>{{ date('d/m/Y') }}</small>
         </div>
         <p class="mb-1">
-            Lista dos usuário {{ $users->implode(', ', 'name') }},
-            com tarefas de tipos {{ $task_types->implode(', ', 'name') }}
-            e status {{ $statuses->implode(', ', 'name') }}.
+            Lista dos usuário {{ $users->implode('name', ', ') }},
+            com tarefas de tipos {{ $task_types->implode('name', ', ') }}
+            e status {{ $statuses->implode('name', ', ') }}.
         </p>
         <small>Widget para visualização de quantidade de tarefas por usuário</small>
     </li>
