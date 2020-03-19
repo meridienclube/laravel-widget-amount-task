@@ -1,5 +1,5 @@
 {
-  "name": "confrariaweb/laravel-widget-amount-task",
+  "name": "meridienclube/laravel-widget-amount-task",
   "version": "dev-master",
   "description": "Pacote widget",
   "keywords": [
@@ -16,8 +16,8 @@
     }
   ],
   "require": {
-    "confrariaweb/laravel-vendor": "dev-master",
-    "confrariaweb/laravel-widget": "dev-master"
+    "meridienclube/laravel-vendor": "dev-master",
+    "meridienclube/laravel-widget": "dev-master"
   },
   "autoload": {
     "psr-4": {
